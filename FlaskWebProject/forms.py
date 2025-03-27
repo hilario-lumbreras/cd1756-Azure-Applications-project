@@ -1,4 +1,3 @@
-
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
@@ -14,6 +13,9 @@ class LoginForm(FlaskForm):
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     author = StringField('Author', validators=[DataRequired()])
-    body = TextAreaField('Body', validators=[DataRequired()])
-    image_path = FileField('Image', validators=[FileAllowed(['jpg', 'png'], 'Images only!')])
+    body = TextAreaField('Body', validators=[DataRequired()], widget=TextArea())
+    image_path = FileField('Image', validators=[
+        FileAllowed(['jpg', 'png'], 'Images only!'),
+        FileRequired('Please upload an image (optional).')  # Optional file upload error message
+    ])
     submit = SubmitField('Save')
