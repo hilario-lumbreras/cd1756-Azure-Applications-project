@@ -1,52 +1,49 @@
-name: Build and deploy Python app to Azure Web App - hilario-web-app  
-  
-on:  
-  push:  
-    branches:  
-      - main  
-  workflow_dispatch:  
-  
-jobs:  
-  build:  
-    runs-on: ubuntu-latest  
-    permissions:  
-      contents: read # This is required for actions/checkout  
-    steps:  
-      - uses: actions/checkout@v4  
-  
-      - name: Set up Python version  
-        uses: actions/setup-python@v5  
-        with:  
-          python-version: '3.10'  
-  
-      - name: Install system dependencies  
-        run: |  
-          sudo apt-get update  
-          sudo apt-get install -y unixodbc unixodbc-dev  
-  
-      - name: Create and start virtual environment  
-        run: |  
-          python -m venv venv  
-          source venv/bin/activate  
-  
-      - name: Install dependencies  
-        run: |  
-          source venv/bin/activate  
-          pip install wheel  # Install wheel before other dependencies  
-          pip install -r requirements.txt  
-  
-      # Optional: Add step to run tests here (PyTest, Django test suites, etc.)  
-  
-      - name: Zip artifact for deployment  
-        run: zip -r release.zip ./*  
-  
-      - name: Upload artifact for deployment jobs  
-        uses: actions/upload-artifact@v4  
-        with:  
-          name: python-app  
-          path: |  
-            release.zip  
-            !venv/ 
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+# More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
+
+name: Build and deploy Python app to Azure Web App - udacityAzureApps
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read #This is required for actions/checkout
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python version
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Create and start virtual environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+      
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+        
+      # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
+
+      - name: Zip artifact for deployment
+        run: zip release.zip ./* -r
+
+      - name: Upload artifact for deployment jobs
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-app
+          path: |
+            release.zip
+            !venv/
 
   deploy:
     runs-on: ubuntu-latest
@@ -71,9 +68,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_52B9AEAECABB45FDB95591293EAC5E3E }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_A8FF59A98F1C425199F8EF2E8DCEB6D6 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_247BC276E07B424082FC49CEC2C0BF7B }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_606D76A003274EBA8378671D7DA1EDF9 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_7499F9CFA3944FAFA08AEEE6E147B547 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_975367B122FF4D588C60F2465E934690 }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
