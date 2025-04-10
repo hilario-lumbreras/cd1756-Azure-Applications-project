@@ -19,7 +19,7 @@ class Config(object):
     CLIENT_SECRET = os.environ.get('CLIENT_SECRET')  # 'm2x8Q~...'
     CLIENT_ID = os.environ.get('CLIENT_ID')  # '6a4b54ac-6ecf-41bf-9993-3d16ad557f1e'
     AUTHORITY = 'https://login.microsoftonline.com/common'  # supports personal + work
-    REDIRECT_PATH = '/getAToken'
+    REDIRECT_PATH = '/authorized'
     SCOPE = ['User.Read']
 
     # Misc
