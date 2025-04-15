@@ -7,6 +7,9 @@ from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_session import Session
+from dotenv import load_dotenv
+load_dotenv()
+
 
 # Initialize the Flask app
 app = Flask(__name__)
